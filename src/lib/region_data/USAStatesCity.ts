@@ -1106,6 +1106,6 @@ const data: {
 }
 
 const states = Object.keys(data)
-const citys = Object.values(data).flat()
+const cities = Object.values(data).flat()
 
-export {data, states, citys}
+export {data, states, cities}

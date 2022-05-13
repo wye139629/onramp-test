@@ -8,6 +8,7 @@ let currentStateIndex = 0
 
 const getRadomIndex = (max: number)=> Math.floor(Math.random() * max)
 
+
 export function mockStart (){
   createServer({
     models: {

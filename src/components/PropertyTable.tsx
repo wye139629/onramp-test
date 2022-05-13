@@ -6,10 +6,11 @@ export function PropertyTable({
 }: {
   data: {
     key: string
-    state: string
-    city: string
-    houses: number
-    avgPrice: string
+    state?: string
+    city?: string
+    type?: string
+    houses?: number
+    avgPrice?: string
   }[]
   loading: boolean
 }) {
@@ -23,6 +24,16 @@ export function PropertyTable({
       title: 'City',
       dataIndex: 'city',
       key: 'city',
+    },
+    {
+      title: 'Type',
+      dataIndex: 'type',
+      key: 'type',
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
     },
     {
       title: 'Houses',
