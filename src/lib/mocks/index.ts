@@ -1,6 +1,12 @@
 import { createServer, Model, Factory } from 'miragejs'
+import {states, data as regionData} from '../region_data/USAStatesCity'
 
 import { faker } from '@faker-js/faker';
+
+let currenState: string
+let currentStateIndex = 0
+
+const getRadomIndex = (max: number)=> Math.floor(Math.random() * max)
 
 export function mockStart (){
   createServer({
@@ -9,26 +15,32 @@ export function mockStart (){
     },
     factories:{
       property: Factory.extend({
-        city(){
-          return faker.address.cityName()
-        },
         state(){
-          return faker.address.state()
+          currenState = states[currentStateIndex]
+          if (currentStateIndex > 50){
+            currentStateIndex = 0
+          } else {
+            currentStateIndex +=1
+          }
+          return currenState
+        },
+        city(i){
+          const citys = regionData[currenState]
+          return citys[getRadomIndex(citys.length)]
         },
         type(){
           const types = ['Apartment', 'Single-family', 'Townhomes', 'Condo']
 
-          const getRadomIndex = (max: number)=> Math.floor(Math.random() * max);
           return types[getRadomIndex(types.length)]
         },
         price(){
-          return faker.commerce.price(500, 1500)
+          return Number(faker.commerce.price(500, 1500))
         }
       })
     },
 
     seeds(server) {
-      server.createList('property', 100)
+      server.createList('property', 1000)
     },
 
     routes() {
