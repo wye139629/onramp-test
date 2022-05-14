@@ -17,15 +17,16 @@ export function mockStart (){
     factories:{
       property: Factory.extend({
         state(){
+          const statesIndex = states.length - 1
           currenState = states[currentStateIndex]
-          if (currentStateIndex > 50){
+          if (currentStateIndex >= statesIndex){
             currentStateIndex = 0
           } else {
-            currentStateIndex +=1
+            currentStateIndex += 1
           }
           return currenState
         },
-        city(i){
+        city(){
           const citys = regionData[currenState]
           return citys[getRadomIndex(citys.length)]
         },
