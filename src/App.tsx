@@ -2,7 +2,7 @@ import './App.css'
 
 import { useEffect, useState } from 'react'
 import { client } from './lib/api/client'
-import { mockStart } from './lib/mocks'
+import { mockStart } from "./lib/mocks";
 import { PropertyTable } from "./components/PropertyTable";
 import { Form, Button, Select } from "antd";
 import { states, cities } from "./lib/region_data/USAStatesCity";
@@ -10,9 +10,11 @@ import {
   createDynamicColumns,
   createGroupByData,
   filterGroupByData,
+} from "./lib/utils/propertyDataSetting";
+import {
   FilterOptinosTypes,
   RawPropertyDataTypes,
-} from "./lib/utils/propertyDataSetting";
+} from "./lib/utils/propertyDataSetting/types";
 mockStart();
 
 const { Option } = Select;
@@ -29,7 +31,7 @@ const priceRange = [
   "1300-1399",
   "1400-1499",
 ];
-const group = ["state", "city", "type", ...priceRange];
+const group = ["state", "city", "type"];
 
 enum PropertyDataStatusEnum {
   idle,
@@ -46,11 +48,11 @@ type PropertyDataStateTypes = {
 };
 
 type GroupByOptionsType = {
-  groupByOptions: string[];
+  groupByColumns: string[];
+  groupByPriceRange: string[];
 };
 
 type ReportSettingStateTypes = FilterOptinosTypes & GroupByOptionsType;
-
 
 function App() {
   const [propertyData, setPropertyData] = useState<PropertyDataStateTypes>({
@@ -66,16 +68,21 @@ function App() {
     cityFilterOptions: [],
     typeFilterOptinos: [],
     priceFilterOptions: [],
-    groupByOptions: ["state", "city"],
+    groupByColumns: ["state", "city"],
+    groupByPriceRange: [],
   });
   const { data, status } = propertyData;
-  const { groupByOptions, ...filterOptions } = reportSetting;
+  const { groupByColumns, groupByPriceRange, ...filterOptions } = reportSetting;
   const isLoading =
     status === PropertyDataStatusEnum.idle ||
     status === PropertyDataStatusEnum.pending;
 
-  const reportColumn = createDynamicColumns(groupByOptions);
-  const groupByData = createGroupByData(data, groupByOptions);
+  const reportColumn = createDynamicColumns(groupByColumns, groupByPriceRange);
+  const groupByData = createGroupByData(
+    data,
+    groupByColumns,
+    groupByPriceRange,
+  );
   const reportData = filterGroupByData(groupByData, filterOptions);
 
   useEffect(() => {
@@ -101,13 +108,24 @@ function App() {
   return (
     <div className="App">
       <Form form={form} onFinish={onFinish} initialValues={reportSetting}>
-        <Form.Item label="Group By" name="groupByOptions">
+        <Form.Item label="Group By Columns" name="groupByColumns">
           <Select
             mode="multiple"
             style={{ width: "50%" }}
-            placeholder="GroupBy"
+            placeholder="Columns"
           >
             {group.map((value) => (
+              <Option key={value}>{value}</Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item label="Group By Price Range" name="groupByPriceRange">
+          <Select
+            mode="multiple"
+            style={{ width: "50%" }}
+            placeholder="Price Range"
+          >
+            {priceRange.map((value) => (
               <Option key={value}>{value}</Option>
             ))}
           </Select>

@@ -1,5 +1,5 @@
 import { Table } from 'antd'
-import { RawPropertyDataTypes } from "../lib/utils/propertyDataSetting";
+import { RawPropertyDataTypes } from "../lib/utils/propertyDataSetting/types";
 enum PriceColorEnums {
   green = "green",
   black = "black",
