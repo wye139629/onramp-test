@@ -77,7 +77,10 @@ function App() {
     status === PropertyDataStatusEnum.idle ||
     status === PropertyDataStatusEnum.pending;
 
-  const reportColumn = createDynamicColumns(groupByColumns, groupByPriceRange);
+  const reportColumn = createDynamicColumns({
+    groupByColumns,
+    groupByPriceRange,
+  });
   const groupByData = createGroupByData(
     data,
     groupByColumns,

@@ -1,4 +1,7 @@
-export function createDynamicColumns (groupByColumns: string[], groupByPriceRange: string[]) {
+export function createDynamicColumns ({groupByColumns, groupByPriceRange}: {
+  groupByColumns: string[],
+  groupByPriceRange: string[]
+}) {
   const groupByOptions = [...groupByColumns, ...groupByPriceRange]
   const allColumn = ["state", "city", "type", "price"];
   const columns = groupByOptions.length === 0 ? allColumn : groupByOptions;
