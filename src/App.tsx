@@ -1,10 +1,8 @@
-import './App.css'
-
-import { useEffect, useState } from 'react'
-import { client } from './lib/api/client'
+import { useEffect, useState } from "react";
+import { client } from "./lib/api/client";
 import { mockStart } from "./lib/mocks";
 import { PropertyTable } from "./components/PropertyTable";
-import { Form, Button, Select } from "antd";
+import { Form, Button, Select, Layout } from "antd";
 import { states, cities } from "./lib/region_data/USAStatesCity";
 import {
   createDynamicColumns,
@@ -18,6 +16,7 @@ import {
 mockStart();
 
 const { Option } = Select;
+const { Content } = Layout;
 const types = ["Apartment", "Single-family", "Townhomes", "Condo"];
 const priceRange = [
   "500-599",
@@ -109,71 +108,95 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <Form form={form} onFinish={onFinish} initialValues={reportSetting}>
-        <Form.Item label="Group By Columns" name="groupByColumns">
-          <Select
-            mode="multiple"
-            style={{ width: "50%" }}
-            placeholder="Columns"
-          >
-            {group.map((value) => (
-              <Option key={value}>{value}</Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item label="Group By Price Range" name="groupByPriceRange">
-          <Select
-            mode="multiple"
-            style={{ width: "50%" }}
-            placeholder="Price Range"
-          >
-            {priceRange.map((value) => (
-              <Option key={value}>{value}</Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item label="State Filter" name="stateFilterOptions">
-          <Select mode="multiple" style={{ width: "50%" }} placeholder="States">
-            {states.map((state) => (
-              <Option key={state}>{state}</Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item label="City Filter" name="cityFilterOptions">
-          <Select mode="multiple" style={{ width: "50%" }} placeholder="Cities">
-            {cities.map((city) => (
-              <Option key={city}>{city}</Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item label="Type Filter" name="typeFilterOptinos">
-          <Select mode="multiple" style={{ width: "50%" }} placeholder="Types">
-            {types.map((type) => (
-              <Option key={type}>{type}</Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item label="Price Filter" name="priceFilterOptions">
-          <Select mode="multiple" style={{ width: "50%" }} placeholder="Price">
-            {priceRange.map((price) => (
-              <Option key={price}>{price}</Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            確認
-          </Button>
-        </Form.Item>
-      </Form>
-      <PropertyTable
-        data={reportData}
-        dataColumn={reportColumn}
-        loading={isLoading}
-      />
-    </div>
+    <Layout style={{ textAlign: "center" }}>
+      <Content style={{ padding: "50px 100px" }}>
+        <Form
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          form={form}
+          onFinish={onFinish}
+          initialValues={reportSetting}
+        >
+          <Form.Item label="Group By Columns" name="groupByColumns">
+            <Select
+              mode="multiple"
+              style={{ width: "50%" }}
+              placeholder="Columns"
+            >
+              {group.map((value) => (
+                <Option key={value}>{value}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item label="Group By Price Range" name="groupByPriceRange">
+            <Select
+              mode="multiple"
+              style={{ width: "50%" }}
+              placeholder="Price Range"
+            >
+              {priceRange.map((value) => (
+                <Option key={value}>{value}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item label="State Filter" name="stateFilterOptions">
+            <Select
+              mode="multiple"
+              style={{ width: "50%" }}
+              placeholder="States"
+            >
+              {states.map((state) => (
+                <Option key={state}>{state}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item label="City Filter" name="cityFilterOptions">
+            <Select
+              mode="multiple"
+              style={{ width: "50%" }}
+              placeholder="Cities"
+            >
+              {cities.map((city) => (
+                <Option key={city}>{city}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item label="Type Filter" name="typeFilterOptinos">
+            <Select
+              mode="multiple"
+              style={{ width: "50%" }}
+              placeholder="Types"
+            >
+              {types.map((type) => (
+                <Option key={type}>{type}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item label="Price Filter" name="priceFilterOptions">
+            <Select
+              mode="multiple"
+              style={{ width: "50%" }}
+              placeholder="Price"
+            >
+              {priceRange.map((price) => (
+                <Option key={price}>{price}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button type="primary" htmlType="submit">
+              確認
+            </Button>
+          </Form.Item>
+        </Form>
+        <PropertyTable
+          data={reportData}
+          dataColumn={reportColumn}
+          loading={isLoading}
+        />
+      </Content>
+    </Layout>
   );
 }
 
-export default App
+export default App;
